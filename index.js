@@ -70,7 +70,10 @@ app.post("/maps", async (req, res) => {
 app.get("/maps", async (req, res) => {
   try {
     const collection = client.db("trials").collection("maps");
-    const documents = await collection.find({}).toArray();
+
+    // Find all documents but only project the `data` field
+    const documents = await collection.find({}, { projection: { data: 1, _id: 0 } }).toArray();
+
     res.status(200).send(documents);
   } catch (error) {
     res.status(500).send("Error retrieving documents: " + error.message);
