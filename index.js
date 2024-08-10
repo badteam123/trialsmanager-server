@@ -76,7 +76,7 @@ app.get("/maps", async (req, res) => {
     const collection = client.db("trials").collection("maps");
 
     // Find all documents but only project the `name` and `game` fields
-    const documents = await collection.find({}, { projection: { 'data.name': 1, 'data.game': 1, 'data.mid': 1, _id: 0 } }).toArray();
+    const documents = await collection.find({}, { projection: { 'data.name': 1, 'data.game': 1, 'mid': 1, _id: 0 } }).toArray();
 
     res.status(200).send(documents);
   } catch (error) {
