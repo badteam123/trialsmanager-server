@@ -76,7 +76,7 @@ app.get("/maps", async (req, res) => {
     const collection = client.db("trials").collection("maps");
 
     // Find all documents but only project the `name` and `game` fields
-    const documents = await collection.find({}, { projection: { 'data.name': 1, 'data.game': 1, _id: 0 } }).toArray();
+    const documents = await collection.find({}, { projection: { 'data.name': 1, 'data.game': 1, 'data.mid': 1, _id: 0 } }).toArray();
 
     res.status(200).send(documents);
   } catch (error) {
@@ -92,7 +92,7 @@ app.get("/maps/:name", async (req, res) => {
     // Find the document by map name and project all fields
     const document = await collection.findOne(
       { 'data.name': name },
-      { projection: { _id: 0 } }
+      { projection: { 'pass': 0, _id: 0 } }
     );
 
     if (document) {
