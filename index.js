@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const { MongoClient, ServerApiVersion } = require("mongodb");
 require("dotenv").config();
 
@@ -34,6 +35,9 @@ async function connectToMongo() {
 }
 
 connectToMongo();
+
+// Middleware to enable CORS
+app.use(cors());
 
 // Middleware to parse JSON bodies
 app.use(express.json());
