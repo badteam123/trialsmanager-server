@@ -84,14 +84,14 @@ app.get("/maps", async (req, res) => {
   }
 });
 
-app.get("/maps/:name", async (req, res) => {
-  const { name } = req.params;
+app.get("/maps/:mid", async (req, res) => {
+  const { mid } = req.params;
   try {
     const collection = client.db("trials").collection("maps");
 
     // Find the document by map name and project all fields
     const document = await collection.findOne(
-      { 'data.name': name },
+      { 'mid': mid },
       { projection: { 'pass': 0, _id: 0 } }
     );
 
