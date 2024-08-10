@@ -75,12 +75,33 @@ app.get("/maps", async (req, res) => {
   try {
     const collection = client.db("trials").collection("maps");
 
-    // Find all documents but only project the `data` field
-    const documents = await collection.find({}, { projection: { data: 1, _id: 0 } }).toArray();
+    // Find all documents but only project the `name` and `game` fields
+    const documents = await collection.find({}, { projection: { 'data.name': 1, 'data.game': 1, _id: 0 } }).toArray();
 
     res.status(200).send(documents);
   } catch (error) {
     res.status(500).send("Error retrieving documents: " + error.message);
+  }
+});
+
+app.get("/maps/:name", async (req, res) => {
+  const { name } = req.params;
+  try {
+    const collection = client.db("trials").collection("maps");
+
+    // Find the document by map name and project all fields
+    const document = await collection.findOne(
+      { 'data.name': name },
+      { projection: { _id: 0 } }
+    );
+
+    if (document) {
+      res.status(200).send(document);
+    } else {
+      res.status(404).send("Map not found");
+    }
+  } catch (error) {
+    res.status(500).send("Error retrieving document: " + error.message);
   }
 });
 
